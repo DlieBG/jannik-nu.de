@@ -1,1 +1,67 @@
-<meta http-equiv="refresh" content="0; URL='https://www.instagram.com/jannik_nu/'" />
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JANNIK.NU - Die Offizielle Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <video autoplay  muted id="background-video">
+                <source src="media/explosion.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <h1 class="hero-title">JANNIK.NU</h1>
+            <p class="hero-subtitle">Der Mann, Der Mythos, Die Legende</p>
+        </section>
+
+        <section class="action-call">
+            <div class="action-row">
+                <h2 class="pointing-hand">🫵🏻</h2>
+                <h2>Wir gehen rein!</h2>
+            </div>
+        </section>
+
+        <section class="reasons">
+            <h2>Gründe, warum Jannik Nu cool ist</h2>
+            <div class="reasons-grid">
+                <div class="reason-card">Er hat Ernie und Bert Golfschläger sleeves.</div>
+                <div class="reason-card">Er merkt nach einer Flasche Weißwein nichts!</div>
+                <div class="reason-card">Er hat den Willen UND die Mittel einen Heimserver zu betreiben.</div>
+                <div class="reason-card">Er hat einmal einen Bären angestarrt. Der Bär hat geblinzelt.</div>
+            </div>
+        </section>
+
+        <section class="fact-generator">
+            <h2>Siehe da! Eine Jannik Nu Tatsache!</h2>
+            <p id="fact-display">Klicke den Knopf, um wahre Coolness zu erleben.</p>
+            <button id="fact-button">Neue Tatsache generieren</button>
+        </section>
+
+        <section class="social">
+            <a href="https://www.instagram.com/jannik_nu/" class="insta-button" target="_blank">CHECK SEIN INSTAGRAM</a>
+        </section>
+
+        <section class="quiz">
+            <h2>Das Jannik Nu Quiz</h2>
+            <div id="quiz-question"></div>
+            <div id="quiz-answers"></div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</main>
+    <div id="loading-page" class="loading-page">
+        <div class="loading-content">
+            <img src="media/nu.load.jpg" alt="Loading" class="loading-image">
+            <div class="loading-text">Sie werden in kürze weiter geleitet</div>
+            <div class="loading-circle"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
