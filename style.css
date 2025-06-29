@@ -1,0 +1,320 @@
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.hero-title {
+    font-size: 8vw;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+    margin: 0;
+    position: relative;
+    animation: neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+    0% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff; }
+    100% { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff, 0 0 80px #00ffff; }
+}
+
+.explosion-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10vw;
+    color: #ff4500;
+    text-shadow: 0 0 20px #ff4500, 0 0 40px #ff4500, 0 0 60px #ff4500;
+    animation: explode 0.5s forwards;
+    opacity: 0;
+}
+
+@keyframes explode {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(2); }
+}
+
+.hero-subtitle {
+    font-size: 2vw;
+    color: #cccccc;
+    margin-top: 1rem;
+}
+
+.reasons {
+    padding: 100px 50px;
+    text-align: center;
+}
+
+.reasons h2 {
+    font-size: 3rem;
+    margin-bottom: 50px;
+    color: #ffffff;
+}
+
+.action-call {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.action-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.action-call h2 {
+    font-size: 3rem;
+    color: #ffffff;
+    margin: 0;
+    padding: 0 50px;
+}
+
+.pointing-hand {
+    font-size: 4rem;
+    margin: 0 auto 20px;
+    animation: point 2s infinite;
+    transform-origin: center;
+    contain: layout;
+    display: block;
+    width: 4rem;
+    text-align: center;
+}
+
+@keyframes point {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.reason-card {
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #00ffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reason-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 15px #00ffff;
+}
+
+.highlighted-card {
+    background-color: #00ffff;
+    color: #121212;
+    transform: scale(1.1) translateY(-20px);
+    box-shadow: 0 0 25px #00ffff;
+    z-index: 10;
+    position: relative;
+}
+
+.highlighted-card:hover {
+    transform: scale(1.15) translateY(-25px);
+    box-shadow: 0 0 35px #00ffff;
+}
+
+.fact-generator {
+    padding: 100px 50px;
+    text-align: center;
+    background-color: #1a1a1a;
+}
+
+.fact-generator h2 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+
+#fact-display {
+    font-size: 1.5rem;
+    min-height: 60px;
+    margin-bottom: 30px;
+    color: #cccccc;
+}
+
+#fact-button {
+    background-color: #00ffff;
+    color: #121212;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#fact-button:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.social {
+    padding: 100px 50px;
+    text-align: center;
+}
+
+.insta-button {
+    display: inline-block;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: #fff;
+    padding: 20px 40px;
+    font-size: 2rem;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.insta-button:hover {
+    transform: scale(1.05);
+}
+
+.quiz {
+    padding: 100px 50px;
+    text-align: center;
+}
+
+.quiz h2 {
+    font-size: 3rem;
+    margin-bottom: 50px;
+    color: #ffffff;
+}
+
+#quiz-question {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #cccccc;
+}
+
+#quiz-answers button {
+    background-color: #00ffff;
+    color: #121212;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0 10px;
+}
+
+#quiz-answers button:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+#confetti-button {
+    background-color: #ffca28;
+    color: #333;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    margin-top: 20px;
+}
+
+#confetti-button:hover {
+    transform: scale(1.05);
+}
+
+.loading-page {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 40px;
+}
+
+.loading-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.loading-img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.loading-text {
+    color: #00ffff;
+    font-size: 1.5rem;
+    text-align: center;
+    text-shadow: 0 0 10px #00ffff;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.impressum {
+    text-align: center;
+
+    a {
+        color: #00ffff;
+        text-decoration: none;
+        margin: 1em;
+    }
+}
