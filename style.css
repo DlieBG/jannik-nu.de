@@ -308,3 +308,13 @@ body {
     0% { opacity: 0.7; }
     100% { opacity: 1; }
 }
+
+.impressum {
+    text-align: center;
+
+    a {
+        color: #00ffff;
+        text-decoration: none;
+        margin: 1em;
+    }
+}
