@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('goingToInsta', 'true');
         
         setTimeout(() => {
-            window.location.href = 'https://www.instagram.com/jannik_nu?utm_source=ig_web_button_share_sheet&igsh=MWVhMWk1ODRtcHZ5bA==';
+            window.location.href = 'https://www.instagram.com/jannik_nu/';
         }, 2000);
 
         confetti({
