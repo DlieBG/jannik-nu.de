@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="media/nu.load.jpg" class="loading-img">
                 </div>
                 <div class="loading-row">
-                    <div class="loading-text">Sie werden jeden moment weitergeleitet</div>
+                    <div class="loading-text">Sie werden jeden Moment weitergeleitet</div>
                 </div>
             </div>
         `;
