@@ -155,28 +155,55 @@ document.addEventListener('DOMContentLoaded', () => {
         buttons.forEach(btn => btn.disabled = true);
 
         const correct = answer === currentQuestion.correctAnswer;
-        if (correct) {
+        
+        if (!correct) {
+            // If wrong answer was clicked, find the correct button and "redirect" the click
+            const correctButton = Array.from(buttons).find(b => b.textContent === currentQuestion.correctAnswer);
+            
+            // First show the wrong button was clicked briefly
+            button.classList.add('incorrect');
+            gsap.to(button, { scale: 1.1, duration: 0.1 });
+            
+            // Then after a short delay, remove the incorrect styling and highlight the correct one
+            setTimeout(() => {
+                button.classList.remove('incorrect');
+                button.style.opacity = '0.5'; // Dim the wrong button
+                
+                // Highlight the correct button as if it was clicked
+                if (correctButton) {
+                    correctButton.classList.add('correct');
+                    gsap.to(correctButton, { scale: 1.2, duration: 0.3, yoyo: true, repeat: 1 });
+                    confetti({ particleCount: 50, spread: 50 });
+                }
+                
+                // Always increment score since we "redirect" to correct answer
+                score++;
+                
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < quizQuestions.length) {
+                        loadQuestion();
+                    } else {
+                        showResults();
+                    }
+                }, 1200);
+            }, 300);
+        } else {
+            // If correct answer was clicked, proceed normally
             score++;
             button.classList.add('correct');
             confetti({ particleCount: 50, spread: 50 });
-        } else {
-            button.classList.add('incorrect');
-            const correctButton = Array.from(buttons).find(b => b.textContent === currentQuestion.correctAnswer);
-            if (correctButton) {
-                correctButton.classList.add('correct');
-            }
+            gsap.to(button, { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1 });
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizQuestions.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1500);
         }
-
-        gsap.to(button, { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1 });
-
-        setTimeout(() => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < quizQuestions.length) {
-                loadQuestion();
-            } else {
-                showResults();
-            }
-        }, 1500);
     }
 
     function showResults() {
