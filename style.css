@@ -226,6 +226,13 @@ body {
     color: #cccccc;
 }
 
+#quiz-progress,
+#quiz-result {
+    color: #00ffff;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
 #quiz-answers button {
     background-color: #00ffff;
     color: #121212;
@@ -242,6 +249,14 @@ body {
 #quiz-answers button:hover {
     background-color: #ffffff;
     color: #000000;
+}
+
+button.correct {
+    background-color: #00ff00 !important;
+}
+
+button.incorrect {
+    background-color: #ff5555 !important;
 }
 
 #confetti-button {
@@ -311,10 +326,35 @@ body {
 
 .impressum {
     text-align: center;
+    padding-bottom: 2em;
+}
 
-    a {
-        color: #00ffff;
-        text-decoration: none;
-        margin: 1em;
-    }
+.impressum a {
+    color: #00ffff;
+    text-decoration: none;
+    margin: 1em;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    padding: 1em 0;
+}
+
+nav a {
+    color: #00ffff;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 1em;
 }

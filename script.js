@@ -114,6 +114,16 @@ document.addEventListener('DOMContentLoaded', () => {
             question: "Magst auch DU Jannik NU?",
             answers: ["Ja", "Nein"],
             correctAnswer: "Ja"
+        },
+        {
+            question: "Ist Jannik Nu ein guter Freund?",
+            answers: ["Ja", "Nein"],
+            correctAnswer: "Ja"
+        },
+        {
+            question: "Hättest du gerne einen Jannik Nu in deinem Leben?",
+            answers: ["Ja", "Nein"],
+            correctAnswer: "Ja"
         }
     ];
 
@@ -122,32 +132,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const questionElement = document.getElementById('quiz-question');
     const answersElement = document.getElementById('quiz-answers');
+    const progressElement = document.getElementById('quiz-progress');
+    const resultElement = document.getElementById('quiz-result');
 
     function loadQuestion() {
         const currentQuestion = quizQuestions[currentQuestionIndex];
         questionElement.textContent = currentQuestion.question;
         answersElement.innerHTML = '';
+        progressElement.textContent = `Frage ${currentQuestionIndex + 1} von ${quizQuestions.length}`;
 
         currentQuestion.answers.forEach(answer => {
             const button = document.createElement('button');
             button.textContent = answer;
-            button.addEventListener('click', (e) => {
-                // Find and highlight the "Yes" button
-                const buttons = answersElement.querySelectorAll('button');
-                const yesButton = Array.from(buttons).find(btn => btn.textContent === 'Ja');
-                if (yesButton) {
-                    yesButton.style.backgroundColor = '#00ff00';
-                }
-                score++;
-                confetti();
-                
-                setTimeout(() => {
-                    currentQuestionIndex = (currentQuestionIndex + 1) % quizQuestions.length;
-                    loadQuestion();
-                }, 1000);
-            });
+            button.addEventListener('click', () => handleAnswer(button, answer));
             answersElement.appendChild(button);
         });
+    }
+
+    function handleAnswer(button, answer) {
+        const currentQuestion = quizQuestions[currentQuestionIndex];
+        const buttons = answersElement.querySelectorAll('button');
+        buttons.forEach(btn => btn.disabled = true);
+
+        const correct = answer === currentQuestion.correctAnswer;
+        if (correct) {
+            score++;
+            button.classList.add('correct');
+            confetti({ particleCount: 50, spread: 50 });
+        } else {
+            button.classList.add('incorrect');
+            const correctButton = Array.from(buttons).find(b => b.textContent === currentQuestion.correctAnswer);
+            if (correctButton) {
+                correctButton.classList.add('correct');
+            }
+        }
+
+        gsap.to(button, { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1 });
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }, 1500);
+    }
+
+    function showResults() {
+        questionElement.textContent = '';
+        answersElement.innerHTML = '';
+        progressElement.textContent = '';
+        resultElement.textContent = `Du hast ${score} von ${quizQuestions.length} Punkten!`;
+        gsap.from(resultElement, { opacity: 0, y: -20, duration: 1 });
     }
 
     loadQuestion();
