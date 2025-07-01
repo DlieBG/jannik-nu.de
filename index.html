@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Die offizielle Jannik Nu Fanseite mit Fakten, Quiz und mehr.">
+    <meta name="keywords" content="Jannik Nu, Meme, Fakten, Quiz, Spaß">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://jannik-nu.de/">
     <title>JANNIK-NU.DE - Die Offizielle Website</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <main class="container">
         <section class="hero">
             <video autoplay  muted id="background-video">
                 <source src="media/explosion.mp4" type="video/mp4">
@@ -47,18 +51,24 @@
 
         <section class="quiz">
             <h2>Das Jannik Nu Quiz</h2>
+            <div id="quiz-progress"></div>
             <div id="quiz-question"></div>
             <div id="quiz-answers"></div>
+            <div id="quiz-result"></div>
         </section>
 
-        <section class="impressum">
-            <a href="impressum.html">Impressum</a>
-        </section>
-    </div>
+    </main>
+    <footer class="impressum">
+        <div class="footer-links">
+        <a href="impressum.html">Impressum</a>
+        <a href="https://github.com/DlieBG/jannik-nu.de/" target="_blank">GitHub</a>
+        <a href="https://www.instagram.com/jannik_nu/" target="_blank">Instagram</a>
+        </div>
+        <p>&copy; 2025 Jannik Nu Fanseite. Alle Rechte vorbehalten.</p>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-</main>
     <div id="loading-page" class="loading-page">
         <div class="loading-content">
             <img src="media/nu.load.jpg" alt="Loading" class="loading-image">
