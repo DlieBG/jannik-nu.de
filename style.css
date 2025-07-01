@@ -335,23 +335,6 @@ button.incorrect {
     margin: 1em;
 }
 
-nav {
-    display: flex;
-    justify-content: center;
-    gap: 1em;
-    padding: 1em 0;
-}
-
-nav a {
-    color: #00ffff;
-    text-decoration: none;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
-
 .footer-links {
     display: flex;
     justify-content: center;
