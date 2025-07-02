@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
         "Das Auto von Jannik Nu braucht kein Benzin. Es fährt aus Respekt.",
         "Jannik Nu ist bereits vor 10 Jahren gestorben. Der Tod hat nur noch nicht den Mut, es ihm zu sagen.",
         "Jannik Nu hat bis zur Unendlichkeit gezählt. Zweimal.",
-        "Wenn Jannik Nu Liegestütze macht, drückt er nicht sich selbst nach oben, sondern die Erde nach unten."
+        "Wenn Jannik Nu Liegestütze macht, drückt er nicht sich selbst nach oben, sondern die Erde nach unten.",
+        "Jannik Nu hat einmal einen Bären angestarrt. Der Bär hat geblinzelt."
     ];
 
     factButton.addEventListener('click', () => {
@@ -55,33 +56,101 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show loading page
         loadingPage.style.display = 'flex';
         
+        // Silly emojis to pick from
+        const sillyEmojis = ['🦆', '🤡', '🦄', '💥', '🕺', '🦖', '🦸‍♂️', '🦍', '🦑', '🦀', '🦆', '🦚', '🦜', '🦩', '🦥', '🦦', '🦨', '🦫', '🦈', '🦭', '🦮', '🦯', '🦷', '🦸‍♀️', '🦹‍♂️', '🦹‍♀️', '🦺', '🦻', '🦼', '🦽', '🦾', '🦿', '🧀', '🧊', '🧃', '🧋', '🧍‍♂️', '🧍‍♀️', '🧑‍🎤', '🧑‍🚀', '🧑‍🚒', '🧑‍🔬', '🧑‍💻', '🧑‍🎨', '🧑‍🚒', '🧑‍🌾', '🧑‍🍳', '🧑‍🎓', '🧑‍🏫', '🧑‍🏭', '🧑‍💼', '🧑‍🔧', '🧑‍🔬', '🧑‍⚕️', '🧑‍🌾', '🧑‍🍳', '🧑‍🎓', '🧑‍🏫', '🧑‍🏭', '🧑‍💼', '🧑‍🔧', '🧑‍🔬', '🧑‍⚕️'];
+        const randomEmoji = sillyEmojis[Math.floor(Math.random() * sillyEmojis.length)];
+
+        // Silly loading texts
+        const sillyTexts = [
+            'Wird geladen...',
+            'Jannik Nu wird informiert...',
+            'Bitte warten Sie auf Coolness...',
+            'Die Ente wird vorbereitet...',
+            'Jannik Nu macht Liegestütze...',
+            'Gleich geht\'s los...',
+            'Jannik Nu zählt bis Unendlichkeit...',
+            'Coolness wird geladen...',
+            'Jannik Nu wird angerufen...',
+            'Die Seite wird mit Respekt geladen...',
+            'Jannik Nu trainiert einen Bären...',
+            'Explosion wird vorbereitet...',
+            'Jannik Nu schläft nicht. Er wartet...',
+            'Sie werden gleich weitergenudelt...',
+            'Bitte warten Sie auf das Meme...',
+            'Jannik Nu startet den Server...',
+            'Die Wand will so aussehen wie er...',
+            'Jannik Nu kaut Bienen...',
+            'Jannik Nu bringt Zwiebeln zum Weinen...'
+        ];
+        let sillyTextIndex = 0;
+
+        // Pick a random Jannik Nu fact
+        const randomFact = jannikFacts[Math.floor(Math.random() * jannikFacts.length)];
+
         // Create loading container
         loadingPage.innerHTML = `
             <div class="loading-grid">
                 <div class="loading-row">
-                    <img src="media/nu.load.jpg" class="loading-img">
+                    <span class="loading-emoji" style="font-size: 6rem; display: inline-block;">${randomEmoji}</span>
                 </div>
                 <div class="loading-row">
-                    <div class="loading-text">Sie werden jeden Moment weitergeleitet</div>
+                    <img src="media/nu.load.jpg" class="loading-img silly-bounce">
+                </div>
+                <div class="loading-row">
+                    <div class="loading-text" id="silly-loading-text">${sillyTexts[0]}</div>
+                </div>
+                <div class="loading-row">
+                    <div class="loading-fact" style="color: #ffca28; font-size: 1.2rem; margin-top: 10px;">${randomFact}</div>
+                </div>
+                <div class="loading-row">
+                    <button id="cancel-redirect" class="cancel-redirect">Abbrechen</button>
                 </div>
             </div>
         `;
 
-        // Rotate animation
-        const loadingImg = loadingPage.querySelector('.loading-img');
-        gsap.to(loadingImg, {
+        // Animate emoji
+        const loadingEmoji = loadingPage.querySelector('.loading-emoji');
+        gsap.to(loadingEmoji, {
             rotation: 360,
-            duration: 1,
+            duration: 0.7,
             repeat: -1,
             ease: 'linear'
+        });
+
+        // Animate image (wobble/bounce)
+        const loadingImg = loadingPage.querySelector('.loading-img');
+        gsap.to(loadingImg, {
+            y: 20,
+            scale: 1.1,
+            yoyo: true,
+            repeat: -1,
+            duration: 0.5,
+            ease: 'sine.inOut'
+        });
+
+        // Cycle silly loading texts
+        const sillyTextDiv = document.getElementById('silly-loading-text');
+        const sillyTextInterval = setInterval(() => {
+            sillyTextIndex = (sillyTextIndex + 1) % sillyTexts.length;
+            sillyTextDiv.textContent = sillyTexts[sillyTextIndex];
+        }, 400);
+
+        // Cancel button logic
+        const cancelBtn = document.getElementById('cancel-redirect');
+        cancelBtn.addEventListener('click', () => {
+            gsap.fromTo(cancelBtn, { x: 0 }, { x: 20, duration: 0.1, yoyo: true, repeat: 5, onComplete: () => {
+                cancelBtn.textContent = 'Zu spät!';
+                cancelBtn.disabled = true;
+            }});
         });
 
         // Set flag that we're going to Instagram
         sessionStorage.setItem('goingToInsta', 'true');
         
         setTimeout(() => {
+            clearInterval(sillyTextInterval);
             window.location.href = 'https://www.instagram.com/jannik_nu/';
-        }, 2000);
+        }, 5000);
 
         confetti({
             particleCount: 100,
@@ -152,7 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleAnswer(button, answer) {
         const currentQuestion = quizQuestions[currentQuestionIndex];
         const buttons = answersElement.querySelectorAll('button');
-        buttons.forEach(btn => btn.disabled = true);
+        buttons.forEach(btn => {
+            btn.disabled = true;
+        });
 
         const correct = answer === currentQuestion.correctAnswer;
         

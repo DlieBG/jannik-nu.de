@@ -21,12 +21,34 @@ body {
 
 #background-video {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
     width: 100%;
     height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
     object-fit: cover;
     z-index: -1;
+    opacity: 0.8;
+}
+
+/* iOS Safari video fixes */
+@supports (-webkit-overflow-scrolling: touch) {
+    #background-video {
+        object-position: center center;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Prevent video controls from showing */
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+video::-webkit-media-controls-start-playback-button {
+    display: none !important;
 }
 
 .hero-title {
@@ -492,4 +514,125 @@ button.incorrect {
     .contact-detail {
         font-size: 1.1rem;
     }
+    
+    #background-video {
+        object-fit: cover;
+        width: 100vw;
+        height: 100vh;
+        max-width: 100%;
+        max-height: 100%;
+    }
+    
+    .hero {
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    .hero-title {
+        font-size: 12vw;
+        z-index: 1;
+    }
+    
+    .hero-subtitle {
+        font-size: 4vw;
+        z-index: 1;
+    }
+}
+
+.merch-store {
+    padding: 100px 50px;
+    text-align: center;
+    background-color: #181818;
+}
+
+.merch-store h2 {
+    font-size: 3rem;
+    color: #00ffff;
+    margin-bottom: 30px;
+    text-shadow: 0 0 15px #00ffff;
+}
+
+.merch-coming-soon {
+    font-size: 1.2rem;
+    color: #222;
+    background: linear-gradient(90deg, #b2fefa 0%, #e0c3fc 100%);
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px #b2fefa66, 0 0 12px #e0c3fc33;
+    margin-top: 16px;
+    font-weight: 500;
+    animation: merch-glow-gentle 2s infinite alternate;
+    text-shadow: 0 1px 4px #fff8, 0 0 2px #b2fefa88;
+    transition: all 0.3s;
+}
+
+@keyframes merch-glow-gentle {
+    0% { box-shadow: 0 0 8px #b2fefa66, 0 0 12px #e0c3fc33; }
+    100% { box-shadow: 0 0 16px #b2fefa99, 0 0 24px #e0c3fc55; }
+}
+
+.loading-emoji {
+    font-size: 6rem;
+    display: inline-block;
+    filter: drop-shadow(0 0 20px #ffca28) drop-shadow(0 0 40px #00ffff);
+    margin-bottom: 10px;
+    animation: emoji-spin 0.7s linear infinite;
+}
+
+@keyframes emoji-spin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.silly-bounce {
+    animation: silly-bounce 0.5s infinite alternate cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+@keyframes silly-bounce {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(20px) scale(1.1) rotate(-10deg); }
+}
+
+.loading-fact {
+    color: #ffca28;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    text-shadow: 0 0 10px #ffca28, 0 0 20px #fff;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive, 'Orbitron', sans-serif;
+    animation: fact-pop 1s infinite alternate;
+}
+
+@keyframes fact-pop {
+    0% { letter-spacing: 0.5px; }
+    100% { letter-spacing: 2px; }
+}
+
+.cancel-redirect {
+    background: linear-gradient(90deg, #ff5555 0%, #ffca28 100%);
+    color: #121212;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-family: 'Orbitron', 'Comic Sans MS', cursive, sans-serif;
+    border-radius: 30px;
+    font-weight: 900;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 0 15px #ffca28, 0 0 10px #ff5555;
+    transition: transform 0.2s, background 0.2s;
+    animation: cancel-wiggle 1s infinite alternate;
+}
+
+.cancel-redirect:disabled {
+    background: #888;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+@keyframes cancel-wiggle {
+    0% { transform: rotate(-3deg) scale(1); }
+    100% { transform: rotate(3deg) scale(1.08); }
 }
