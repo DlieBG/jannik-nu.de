@@ -9,9 +9,10 @@ Eine interaktive Website mit Neon-Ästhetik, die dem legendären Jannik Nu gewid
 - 🎬 **Epischer Video-Hintergrund** mit Explosion
 - ⚡ **Neon-Glow Animationen** mit GSAP
 - 🎊 **Konfetti-Effekte** für extra Spaß
-- 🧠 **Interaktives Quiz** (Spoiler: alle Antworten sind "Ja")
+- 🧠 **Interaktives Quiz** mit 5 Fragen
 - 📱 **Responsive Design** für alle Geräte
 - 🔥 **Jannik Nu Fakten Generator** mit Chuck Norris vibes
+- 🕰️ **Jannik Nu Zeitmaschine** für eine Zeitreise in die Vergangenheit
 
 ## 🚀 Live Demo
 

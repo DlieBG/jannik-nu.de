@@ -17,6 +17,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Merch section click functionality
+    const merchComingSoon = document.querySelector('.merch-coming-soon');
+    const clothingEmojis = ['👕', '👖', '🧢', '👟', '👜', '👔', '👗', '🧥', '👠', '🩳', '👙', '🧦', '👓', '💍', '⌚'];
+    let emojiCounter = 0;
+
+    merchComingSoon.addEventListener('click', (e) => {
+        // Create emoji element
+        const emoji = document.createElement('div');
+        emoji.classList.add('clothing-emoji');
+        emoji.textContent = clothingEmojis[Math.floor(Math.random() * clothingEmojis.length)];
+        
+        // Position emoji at click position
+        emoji.style.position = 'fixed';
+        emoji.style.fontSize = '3rem';
+        emoji.style.pointerEvents = 'none';
+        emoji.style.zIndex = '9999';
+        emoji.style.left = `${e.clientX - 30}px`;
+        emoji.style.top = `${e.clientY - 30}px`;
+        
+        document.body.appendChild(emoji);
+        
+        // Animate emoji
+        gsap.fromTo(emoji, 
+            { 
+                scale: 0, 
+                opacity: 0,
+                rotation: Math.random() * 360
+            },
+            { 
+                scale: 2, 
+                opacity: 1,
+                duration: 0.5,
+                ease: 'back.out(1.7)',
+                onComplete: () => {
+                    gsap.to(emoji, {
+                        y: -200,
+                        rotation: Math.random() * 360,
+                        opacity: 0,
+                        scale: 0.8,
+                        duration: 4,
+                        ease: 'power2.out',
+                        onComplete: () => emoji.remove()
+                    });
+                }
+            }
+        );
+        
+        // Add confetti effect
+        confetti({
+            particleCount: 30,
+            spread: 40,
+            origin: { 
+                x: e.clientX / window.innerWidth,
+                y: e.clientY / window.innerHeight
+            }
+        });
+        
+        emojiCounter++;
+    });
+
 
 
     const factDisplay = document.getElementById('fact-display');
@@ -31,12 +91,51 @@ document.addEventListener('DOMContentLoaded', () => {
         "Jannik Nu ist bereits vor 10 Jahren gestorben. Der Tod hat nur noch nicht den Mut, es ihm zu sagen.",
         "Jannik Nu hat bis zur Unendlichkeit gezählt. Zweimal.",
         "Wenn Jannik Nu Liegestütze macht, drückt er nicht sich selbst nach oben, sondern die Erde nach unten.",
-        "Jannik Nu hat einmal einen Bären angestarrt. Der Bär hat geblinzelt."
+        "Jannik Nu hat einmal einen Bären angestarrt. Der Bär hat geblinzelt.",
+        "Wenn Jannik Nu ins Fitnessstudio geht, trainieren die Gewichte mit ihm.",
+        "Jannik Nu braucht keinen Kompass. Der Norden richtet sich nach ihm.",
+        "Wenn Jannik Nu Zwiebeln schneidet, weinen die Messer.",
+        "Jannik Nu hat das Schweizer Taschenmesser erfunden. Mit seinen Fingernägeln.",
+        "Jannik Nu geht nicht schwimmen. Das Wasser macht Platz.",
+        "Jannik Nu hat einmal eine Partie Schach verloren. Aus Mitleid.",
+        "Jannik Nu trägt keine Sonnenbrille. Die Sonne trägt eine Jannik-Nu-Brille.",
+        "Wenn Jannik Nu einen Witz erzählt, lacht sogar die Stille.",
+        "Jannik Nu muss sein Handy nicht aufladen. Es hat Respekt vor leeren Akkus.",
+        "Jannik Nu hat keinen Führerschein. Er hat dem Auto Fahrstunden gegeben.",
+        "Wenn Jannik Nu einen Regentanz macht, entschuldigt sich das Wetter.",
+        "Jannik Nu spielt kein Verstecken. Die Dinge verstecken sich vor ihm.",
+        "Jannik Nu hat dem Internet beigebracht, wie man surft.",
+        "Wenn Jannik Nu programmiert, debuggt sich der Code selbst.",
+        "Jannik Nu braucht kein GPS. Die Orte kommen zu ihm.",
+        "Jannik Nu hat einmal einen Schneemann gebaut. Er steht jetzt im Museum."
     ];
 
+    // Track shown facts in session storage
+    if (!sessionStorage.getItem('shownFacts')) {
+        sessionStorage.setItem('shownFacts', JSON.stringify([]));
+    }
+
     factButton.addEventListener('click', () => {
-        const randomIndex = Math.floor(Math.random() * jannikFacts.length);
-        factDisplay.textContent = jannikFacts[randomIndex];
+        let shownFacts = JSON.parse(sessionStorage.getItem('shownFacts'));
+        let availableFacts = jannikFacts.filter(fact => !shownFacts.includes(fact));
+        
+        // If all facts have been shown, reset the tracking
+        if (availableFacts.length === 0) {
+            shownFacts = [];
+            availableFacts = [...jannikFacts];
+            sessionStorage.setItem('shownFacts', JSON.stringify(shownFacts));
+        }
+        
+        const randomIndex = Math.floor(Math.random() * availableFacts.length);
+        const selectedFact = availableFacts[randomIndex];
+        
+        // Update display and tracking
+        factDisplay.textContent = selectedFact;
+        shownFacts.push(selectedFact);
+        sessionStorage.setItem('shownFacts', JSON.stringify(shownFacts));
+        
+        // Reset opacity and then animate
+        gsap.set(factDisplay, { opacity: 1 });
         gsap.from(factDisplay, { duration: 0.5, y: -20, opacity: 0, ease: 'power2.out' });
         confetti();
     });
@@ -56,33 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show loading page
         loadingPage.style.display = 'flex';
         
-        // Silly emojis to pick from
-        const sillyEmojis = ['🦆', '🤡', '🦄', '💥', '🕺', '🦖', '🦸‍♂️', '🦍', '🦑', '🦀', '🦆', '🦚', '🦜', '🦩', '🦥', '🦦', '🦨', '🦫', '🦈', '🦭', '🦮', '🦯', '🦷', '🦸‍♀️', '🦹‍♂️', '🦹‍♀️', '🦺', '🦻', '🦼', '🦽', '🦾', '🦿', '🧀', '🧊', '🧃', '🧋', '🧍‍♂️', '🧍‍♀️', '🧑‍🎤', '🧑‍🚀', '🧑‍🚒', '🧑‍🔬', '🧑‍💻', '🧑‍🎨', '🧑‍🚒', '🧑‍🌾', '🧑‍🍳', '🧑‍🎓', '🧑‍🏫', '🧑‍🏭', '🧑‍💼', '🧑‍🔧', '🧑‍🔬', '🧑‍⚕️', '🧑‍🌾', '🧑‍🍳', '🧑‍🎓', '🧑‍🏫', '🧑‍🏭', '🧑‍💼', '🧑‍🔧', '🧑‍🔬', '🧑‍⚕️'];
-        const randomEmoji = sillyEmojis[Math.floor(Math.random() * sillyEmojis.length)];
 
-        // Silly loading texts
-        const sillyTexts = [
-            'Wird geladen...',
-            'Jannik Nu wird informiert...',
-            'Bitte warten Sie auf Coolness...',
-            'Die Ente wird vorbereitet...',
-            'Jannik Nu macht Liegestütze...',
-            'Gleich geht\'s los...',
-            'Jannik Nu zählt bis Unendlichkeit...',
-            'Coolness wird geladen...',
-            'Jannik Nu wird angerufen...',
-            'Die Seite wird mit Respekt geladen...',
-            'Jannik Nu trainiert einen Bären...',
-            'Explosion wird vorbereitet...',
-            'Jannik Nu schläft nicht. Er wartet...',
-            'Sie werden gleich weitergenudelt...',
-            'Bitte warten Sie auf das Meme...',
-            'Jannik Nu startet den Server...',
-            'Die Wand will so aussehen wie er...',
-            'Jannik Nu kaut Bienen...',
-            'Jannik Nu bringt Zwiebeln zum Weinen...'
-        ];
-        let sillyTextIndex = 0;
 
         // Pick a random Jannik Nu fact
         const randomFact = jannikFacts[Math.floor(Math.random() * jannikFacts.length)];
@@ -91,16 +164,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingPage.innerHTML = `
             <div class="loading-grid">
                 <div class="loading-row">
-                    <span class="loading-emoji" style="font-size: 6rem; display: inline-block;">${randomEmoji}</span>
+                    <img src="media/nu.load.jpg" class="loading-img">
                 </div>
                 <div class="loading-row">
-                    <img src="media/nu.load.jpg" class="loading-img silly-bounce">
+                    <div class="loading-text" id="silly-loading-text">Sie werden weitergeleitet...</div>
                 </div>
                 <div class="loading-row">
-                    <div class="loading-text" id="silly-loading-text">${sillyTexts[0]}</div>
-                </div>
-                <div class="loading-row">
-                    <div class="loading-fact" style="color: #ffca28; font-size: 1.2rem; margin-top: 10px;">${randomFact}</div>
+                    <div class="loading-fact" style="margin-top: 10px;">${randomFact}</div>
                 </div>
                 <div class="loading-row">
                     <button id="cancel-redirect" class="cancel-redirect">Abbrechen</button>
@@ -108,32 +178,14 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        // Animate emoji
-        const loadingEmoji = loadingPage.querySelector('.loading-emoji');
-        gsap.to(loadingEmoji, {
+        // Simple rotation animation for the image
+        const loadingImg = loadingPage.querySelector('.loading-img');
+        gsap.to(loadingImg, {
             rotation: 360,
-            duration: 0.7,
+            duration: 2,
             repeat: -1,
             ease: 'linear'
         });
-
-        // Animate image (wobble/bounce)
-        const loadingImg = loadingPage.querySelector('.loading-img');
-        gsap.to(loadingImg, {
-            y: 20,
-            scale: 1.1,
-            yoyo: true,
-            repeat: -1,
-            duration: 0.5,
-            ease: 'sine.inOut'
-        });
-
-        // Cycle silly loading texts
-        const sillyTextDiv = document.getElementById('silly-loading-text');
-        const sillyTextInterval = setInterval(() => {
-            sillyTextIndex = (sillyTextIndex + 1) % sillyTexts.length;
-            sillyTextDiv.textContent = sillyTexts[sillyTextIndex];
-        }, 400);
 
         // Cancel button logic
         const cancelBtn = document.getElementById('cancel-redirect');
@@ -148,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('goingToInsta', 'true');
         
         setTimeout(() => {
-            clearInterval(sillyTextInterval);
             window.location.href = 'https://www.instagram.com/jannik_nu/';
         }, 5000);
 
@@ -175,24 +226,24 @@ document.addEventListener('DOMContentLoaded', () => {
             correctAnswer: "Ja"
         },
         {
+            question: "Kann Jannik Nu Zwiebeln zum Weinen bringen?",
+            answers: ["Ja", "Nein"],
+            correctAnswer: "Ja"
+        },
+        {
+            question: "Schläft Jannik Nu oder wartet er nur?",
+            answers: ["Er wartet", "Er schläft"],
+            correctAnswer: "Er wartet"
+        },
+        {
             question: "Hat Jannik Nu ein freundliches Lächeln?",
             answers: ["Ja", "Nein"],
             correctAnswer: "Ja"
         },
         {
-            question: "Magst auch DU Jannik NU?",
-            answers: ["Ja", "Nein"],
-            correctAnswer: "Ja"
-        },
-        {
-            question: "Ist Jannik Nu ein guter Freund?",
-            answers: ["Ja", "Nein"],
-            correctAnswer: "Ja"
-        },
-        {
-            question: "Hättest du gerne einen Jannik Nu in deinem Leben?",
-            answers: ["Ja", "Nein"],
-            correctAnswer: "Ja"
+            question: "Muss Jannik Nu sein Handy aufladen?",
+            answers: ["Nein, es hat Angst", "Ja"],
+            correctAnswer: "Nein, es hat Angst"
         }
     ];
 
@@ -228,37 +279,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const correct = answer === currentQuestion.correctAnswer;
         
         if (!correct) {
-            // If wrong answer was clicked, find the correct button and "redirect" the click
-            const correctButton = Array.from(buttons).find(b => b.textContent === currentQuestion.correctAnswer);
+            // If wrong answer was clicked, immediately swap the button text with the correct answer
+            const correctAnswer = currentQuestion.correctAnswer;
+            const wrongAnswer = answer;
             
-            // First show the wrong button was clicked briefly
-            button.classList.add('incorrect');
-            gsap.to(button, { scale: 1.1, duration: 0.1 });
+            // Find the button that has the correct answer
+            const correctButton = Array.from(buttons).find(b => b.textContent === correctAnswer);
             
-            // Then after a short delay, remove the incorrect styling and highlight the correct one
+            // Immediately swap the button texts
+            button.textContent = correctAnswer;
+            button.classList.add('correct');
+            
+            // Swap the other button to show the wrong answer
+            if (correctButton) {
+                correctButton.textContent = wrongAnswer;
+                correctButton.style.opacity = '0.5';
+            }
+            
+            // Animate the swapped button
+            gsap.to(button, { scale: 1.2, duration: 0.3, yoyo: true, repeat: 1 });
+            confetti({ particleCount: 50, spread: 50 });
+            
+            // Always increment score since we "redirect" to correct answer
+            score++;
+            
             setTimeout(() => {
-                button.classList.remove('incorrect');
-                button.style.opacity = '0.5'; // Dim the wrong button
-                
-                // Highlight the correct button as if it was clicked
-                if (correctButton) {
-                    correctButton.classList.add('correct');
-                    gsap.to(correctButton, { scale: 1.2, duration: 0.3, yoyo: true, repeat: 1 });
-                    confetti({ particleCount: 50, spread: 50 });
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizQuestions.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
                 }
-                
-                // Always increment score since we "redirect" to correct answer
-                score++;
-                
-                setTimeout(() => {
-                    currentQuestionIndex++;
-                    if (currentQuestionIndex < quizQuestions.length) {
-                        loadQuestion();
-                    } else {
-                        showResults();
-                    }
-                }, 1200);
-            }, 300);
+            }, 1200);
         } else {
             // If correct answer was clicked, proceed normally
             score++;
@@ -286,4 +338,131 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     loadQuestion();
+
+    // Time Machine functionality
+    const timePeriods = [
+        {
+            emoji: "💥",
+            description: "Jannik Nu beim Urknall: Er hat die Zeit erfunden."
+        },
+        {
+            emoji: "🦖",
+            description: "Jannik Nu in der Kreidezeit: Er hat die Dinos nicht ausgerottet - sie sind freiwillig ausgestorben, als sie seine Coolness sahen."
+        },
+        {
+            emoji: "⚔️",
+            description: "Mittelalter Jannik Nu: Seine Rüstung besteht aus purem Selbstbewusstsein."
+        },
+        {
+            emoji: "🎭",
+            description: "Renaissance Jannik Nu: Da Vinci malte die Mona Lisa nach ihm - sie lächelt, weil sie an Jannik denkt."
+        },
+        {
+            emoji: "🚂",
+            description: "Industrielle Revolution Jannik Nu: Dampfmaschinen laufen mit seiner überschüssigen Energie."
+        },
+        {
+            emoji: "👨‍🚀",
+            description: "Weltraum Jannik Nu: Die Aliens haben SEINE Existenz noch nicht bestätigt."
+        },
+        {
+            emoji: "🤖",
+            description: "Cyber Jannik Nu: Er muss keine Matrix hacken - sie programmiert sich selbst neu für ihn."
+        },
+        {
+            emoji: "🧙‍♂️",
+            description: "Fantasy Jannik Nu: Gandalf fragt IHN um Rat."
+        },
+        {
+            emoji: "🏴‍☠️",
+            description: "Piraten Jannik Nu: Der Kompass zeigt immer in seine Richtung, nicht nach Norden."
+        },
+        {
+            emoji: "👨‍💻",
+            description: "Programmier Jannik Nu: Er hat die Weltprogrammiert, aber die Welt hat ihn nicht programmiert."
+        }
+    ];
+
+    const timePortal = document.querySelector('.time-portal');
+    const portalImage = document.querySelector('.portal-image');
+    const timePeriodText = document.getElementById('time-period');
+    const timeTravelBtn = document.getElementById('time-travel-btn');
+    let currentPeriodIndex = -1;
+
+    // Add initial spinning class
+    timePortal.classList.add('portal-spinning');
+
+    function timeTravel() {
+        // Stop spinning during the effect
+        timePortal.classList.remove('portal-spinning');
+        timePortal.classList.add('portal-flash');
+        
+        // Play with confetti
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#4a9eff', '#00ffff', '#ffffff']
+        });
+
+        // Get new random period (different from current)
+        let newIndex;
+        do {
+            newIndex = Math.floor(Math.random() * timePeriods.length);
+        } while (newIndex === currentPeriodIndex);
+        
+        currentPeriodIndex = newIndex;
+        const period = timePeriods[currentPeriodIndex];
+
+        // Animate the change
+        gsap.to(portalImage, {
+            scale: 0,
+            duration: 0.3,
+            onComplete: () => {
+                portalImage.textContent = period.emoji;
+                gsap.to(portalImage, {
+                    scale: 1,
+                    duration: 0.5,
+                    ease: "back.out(1.7)"
+                });
+            }
+        });
+
+        gsap.to(timePeriodText, {
+            opacity: 0,
+            y: -20,
+            duration: 0.3,
+            onComplete: () => {
+                timePeriodText.textContent = period.description;
+                gsap.to(timePeriodText, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+            }
+        });
+
+        // Remove flash animation class and restart spinning after delay
+        setTimeout(() => {
+            timePortal.classList.remove('portal-flash');
+            // Wait 4 seconds before starting to spin again
+            setTimeout(() => {
+                timePortal.classList.add('portal-spinning');
+            }, 4000);
+        }, 500);
+
+        // Disable the button and portal clicks during the animation and pause
+        timeTravelBtn.disabled = true;
+        timePortal.style.pointerEvents = 'none';
+        
+        // Re-enable interactions after the full animation and pause
+        setTimeout(() => {
+            timeTravelBtn.disabled = false;
+            timePortal.style.pointerEvents = 'auto';
+        }, 4500); // 500ms animation + 4000ms pause
+    }
+
+    timeTravelBtn.addEventListener('click', timeTravel);
+    timePortal.addEventListener('click', timeTravel);
 });
