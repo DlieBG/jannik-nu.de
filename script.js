@@ -389,6 +389,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeTravelBtn = document.getElementById('time-travel-btn');
     let currentPeriodIndex = -1;
 
+    // Track shown periods in session storage
+    if (!sessionStorage.getItem('shownPeriods')) {
+        sessionStorage.setItem('shownPeriods', JSON.stringify([]));
+    }
+
     // Add initial spinning class
     timePortal.classList.add('portal-spinning');
 
@@ -405,14 +410,25 @@ document.addEventListener('DOMContentLoaded', () => {
             colors: ['#4a9eff', '#00ffff', '#ffffff']
         });
 
-        // Get new random period (different from current)
-        let newIndex;
-        do {
-            newIndex = Math.floor(Math.random() * timePeriods.length);
-        } while (newIndex === currentPeriodIndex);
+        // Get shown periods from session storage
+        let shownPeriods = JSON.parse(sessionStorage.getItem('shownPeriods'));
+        let availablePeriods = timePeriods.filter((_, index) => !shownPeriods.includes(index));
         
-        currentPeriodIndex = newIndex;
-        const period = timePeriods[currentPeriodIndex];
+        // If all periods have been shown, reset the tracking
+        if (availablePeriods.length === 0) {
+            shownPeriods = [];
+            availablePeriods = [...timePeriods];
+            sessionStorage.setItem('shownPeriods', JSON.stringify(shownPeriods));
+        }
+        
+        // Select a random period from available ones
+        const randomIndex = Math.floor(Math.random() * availablePeriods.length);
+        const period = availablePeriods[randomIndex];
+        currentPeriodIndex = timePeriods.indexOf(period);
+        
+        // Update tracking
+        shownPeriods.push(currentPeriodIndex);
+        sessionStorage.setItem('shownPeriods', JSON.stringify(shownPeriods));
 
         // Animate the change
         gsap.to(portalImage, {
